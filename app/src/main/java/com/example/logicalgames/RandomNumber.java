@@ -21,9 +21,9 @@ public class RandomNumber {
         int diff = max - min;
         int n = random.nextInt(diff + 1);
         n += min;
-        while (){
+        //while (){
 
-        }
+        //}
         return n;
     }
 }

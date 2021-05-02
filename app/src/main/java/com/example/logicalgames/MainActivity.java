@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 LinkedList<String> numbers = new LinkedList();
                 if (!number.equals("")) {
                     numbers.add(number.getText().toString());
-                    bulls = 1;
-                    cows = 1;
+                    bulls = numberOfBulls(4259, Integer.parseInt(number.getText().toString()));
+                    cows = numberOfCaws(4259, Integer.parseInt(number.getText().toString()));
                     for (int i = 0; i < numbers.size(); i++) {
                         HashMap<String, String> map = new HashMap<>();
                         map.put("numberbc", numbers.get(i));
@@ -108,5 +108,31 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick (View v){
         numbers ((Button) v);
+    }
+
+    public int numberOfBulls(int originalNumber, int enteredNumber){
+        int k = 0;
+        while (originalNumber != 0){
+            if (originalNumber % 10 == enteredNumber % 10)
+                k++;
+            originalNumber /= 10;
+            enteredNumber /= 10;
+        }
+        return k;
+    }
+
+    public int numberOfCaws (int originalNumber, int enteredNumber){
+        int k = 0;
+        String s = String.valueOf(originalNumber);
+        String ss = String.valueOf(enteredNumber);
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < ss.length(); j++) {
+                if (i != j){
+                    if (s.charAt(i) == ss.charAt(j))
+                        k++;
+                }
+            }
+        }
+        return k;
     }
 }
