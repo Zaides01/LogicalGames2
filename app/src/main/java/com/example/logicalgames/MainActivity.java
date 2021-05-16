@@ -2,7 +2,9 @@ package com.example.logicalgames;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     SimpleAdapter simpleAdapter;
     LinkedList<HashMap<String, String>> mapNumber = new LinkedList<>();
 
+    private static final String LEVEL = "level";
+    String level;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         nineButton = findViewById(R.id.nineButton);
         list = findViewById(R.id.list);
 
+        level = getIntent().getStringExtra(LEVEL);
+        final RandomNumber randomNumber = new RandomNumber(Integer.parseInt(level));
+        final int levelInt = Integer.parseInt(String.valueOf(randomNumber.generat()));
 
         String[] keyFrom = {"numberbc", "bulls", "cows"};
         int[] idTo = {R.id.numberbc, R.id.bulls, R.id.cows};
@@ -55,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 LinkedList<String> numbers = new LinkedList();
-                if (!number.equals("")) {
+                if (!number.getText().toString().equals("")) {
                     numbers.add(number.getText().toString());
-                    bulls = numberOfBulls(4259, Integer.parseInt(number.getText().toString()));
-                    cows = numberOfCaws(4259, Integer.parseInt(number.getText().toString()));
+                    bulls = numberOfBulls(levelInt, Integer.parseInt(number.getText().toString()));
+                    cows = numberOfCaws(levelInt, Integer.parseInt(number.getText().toString()));
                     for (int i = 0; i < numbers.size(); i++) {
                         HashMap<String, String> map = new HashMap<>();
                         map.put("numberbc", numbers.get(i));
