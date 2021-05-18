@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String LEVEL = "level";
     String level;
 
+    long startTime, endTime, time;
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +53,13 @@ public class MainActivity extends AppCompatActivity {
         nineButton = findViewById(R.id.nineButton);
         list = findViewById(R.id.list);
 
+        //TODO расчет времени игры
+        startTime = System.currentTimeMillis();
+        intent = new Intent(this, MainMenu.class);
+
         level = getIntent().getStringExtra(LEVEL);
         final RandomNumber randomNumber = new RandomNumber(Integer.parseInt(level));
-        final int levelInt = Integer.parseInt(String.valueOf(randomNumber.generat()));
+        final int levelInt = Integer.parseInt(String.valueOf(randomNumber.generate()));
 
         String[] keyFrom = {"numberbc", "bulls", "cows"};
         int[] idTo = {R.id.numberbc, R.id.bulls, R.id.cows};
@@ -76,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                     simpleAdapter.notifyDataSetChanged();
                     number.setText("");
+                    if (bulls == 4){
+                        onStop();
+                    }
                 }
             }
         });
@@ -142,5 +152,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return k;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        endTime = System.currentTimeMillis();
+        time = endTime - startTime;
+        intent.putExtra("time", time);
+        startActivity(intent);
     }
 }
