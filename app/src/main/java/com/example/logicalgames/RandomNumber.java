@@ -25,7 +25,7 @@ public class RandomNumber {
             numbers[n2] = k;
         }
         String s = "";
-        for (int i = 0; i <= a; i++) {
+        for (int i = 0; i < a; i++) {
             s += String.valueOf(numbers[i]);
         }
         k = Integer.parseInt(s);

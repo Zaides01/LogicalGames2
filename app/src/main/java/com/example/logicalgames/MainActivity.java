@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     TextView number;
     ListView list;
     int bulls, cows;
+    int strokes = 0;
 
     SimpleAdapter simpleAdapter;
     LinkedList<HashMap<String, String>> mapNumber = new LinkedList<>();
@@ -70,23 +72,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 LinkedList<String> numbers = new LinkedList();
-                if (!number.getText().toString().equals("")) {
-                    numbers.add(number.getText().toString());
-                    bulls = numberOfBulls(levelInt, Integer.parseInt(number.getText().toString()));
-                    cows = numberOfCaws(levelInt, Integer.parseInt(number.getText().toString()));
-                    for (int i = 0; i < numbers.size(); i++) {
-                        HashMap<String, String> map = new HashMap<>();
-                        map.put("numberbc", numbers.get(i));
-                        map.put("bulls", String.valueOf(bulls));
-                        map.put("cows", String.valueOf(cows));
-                        mapNumber.add(map);
-                    }
-                    simpleAdapter.notifyDataSetChanged();
-                    number.setText("");
-                    if (bulls == 4){
-                        onStop();
-                    }
-                }
+//                if (number.getText().toString().length() == Integer.parseInt(level)){
+                    if (!number.getText().toString().equals("") && number.getText().toString().length() == Integer.parseInt(level)) {
+                        numbers.add(number.getText().toString());
+                        bulls = numberOfBulls(levelInt, Integer.parseInt(number.getText().toString()));
+                        cows = numberOfCaws(levelInt, Integer.parseInt(number.getText().toString()));
+                        strokes++;
+                        for (int i = 0; i < numbers.size(); i++) {
+                            HashMap<String, String> map = new HashMap<>();
+                            map.put("numberbc", numbers.get(i));
+                            map.put("bulls", String.valueOf(bulls));
+                            map.put("cows", String.valueOf(cows));
+                            mapNumber.add(map);
+                        }
+                        simpleAdapter.notifyDataSetChanged();
+                        number.setText("");
+                        nullButton.setEnabled(true);
+                        oneButton.setEnabled(true);
+                        twoButton.setEnabled(true);
+                        threeButton.setEnabled(true);
+                        fourButton.setEnabled(true);
+                        fiveButton.setEnabled(true);
+                        sixButton.setEnabled(true);
+                        sevenButton.setEnabled(true);
+                        eightButton.setEnabled(true);
+                        nineButton.setEnabled(true);
+                        if (String.valueOf(bulls).equals(level)){
+                            onStop();
+                        }
+                    } else Toast.makeText(getApplicationContext(), "Число не подходит по количеству цифр", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -96,30 +110,66 @@ public class MainActivity extends AppCompatActivity {
         if (!num.equals("")){
             switch (num){
                 case ("0"):
-                    number.append(nullButton.getText().toString()); break;
+                    number.append(nullButton.getText().toString());
+                    nullButton.setEnabled(false);
+                    break;
                 case ("1"):
-                    number.append(oneButton.getText().toString()); break;
+                    number.append(oneButton.getText().toString());
+                    oneButton.setEnabled(false);break;
                 case ("2"):
-                    number.append(twoButton.getText().toString()); break;
+                    number.append(twoButton.getText().toString());
+                    twoButton.setEnabled(false);break;
                 case ("3"):
-                    number.append(threeButton.getText().toString()); break;
+                    number.append(threeButton.getText().toString());
+                    threeButton.setEnabled(false);break;
                 case ("4"):
-                    number.append(fourButton.getText().toString()); break;
+                    number.append(fourButton.getText().toString());
+                    fourButton.setEnabled(false);break;
                 case ("5"):
-                    number.append(fiveButton.getText().toString()); break;
+                    number.append(fiveButton.getText().toString());
+                    fiveButton.setEnabled(false);break;
                 case ("6"):
-                    number.append(sixButton.getText().toString()); break;
+                    number.append(sixButton.getText().toString());
+                    sixButton.setEnabled(false);break;
                 case ("7"):
-                    number.append(sevenButton.getText().toString()); break;
+                    number.append(sevenButton.getText().toString());
+                    sevenButton.setEnabled(false);break;
                 case ("8"):
-                    number.append(eightButton.getText().toString()); break;
+                    number.append(eightButton.getText().toString());
+                    eightButton.setEnabled(false);break;
                 case ("9"):
-                    number.append(nineButton.getText().toString()); break;
+                    number.append(nineButton.getText().toString());
+                    nineButton.setEnabled(false);break;
                 case ("DEL"):
                     String str = number.getText().toString();
+                    char s='a';
                     if (!str.isEmpty()){
+                        s = str.charAt(str.length() - 1);
                         str = str.substring(0, str.length()-1);
-                        number.setText(str);} break;
+                        number.setText(str);
+                    }else if (str.equals(""))
+                        Toast.makeText(getApplicationContext(), "Нет числа", Toast.LENGTH_SHORT).show();
+                    if (s == '0')
+                        nullButton.setEnabled(true);
+                    if (s == '1')
+                        oneButton.setEnabled(true);
+                    if (s == '2')
+                        twoButton.setEnabled(true);
+                    if (s == '3')
+                        threeButton.setEnabled(true);
+                    if (s == '4')
+                        fourButton.setEnabled(true);
+                    if (s == '5')
+                        fiveButton.setEnabled(true);
+                    if (s == '6')
+                        sixButton.setEnabled(true);
+                    if (s == '7')
+                        sevenButton.setEnabled(true);
+                    if (s == '8')
+                        eightButton.setEnabled(true);
+                    if (s == '9')
+                        nineButton.setEnabled(true);
+                    break;
             }
         }
     }
@@ -159,7 +209,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         endTime = System.currentTimeMillis();
         time = endTime - startTime;
+        time /= 60000;
         intent.putExtra("time", time);
+        intent.putExtra("strokes", strokes);
         startActivity(intent);
     }
 }

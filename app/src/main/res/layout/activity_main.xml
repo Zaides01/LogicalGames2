@@ -18,6 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/list"
+            android:dividerHeight="5dp"
+            android:divider="#0003DAC5"
             android:layout_margin="10dp"
             android:layout_weight="1"/>
 
@@ -36,7 +38,7 @@
             android:textSize="25dp"
             android:gravity="center_horizontal"
             android:layout_gravity="center"
-            android:background="@drawable/textviewshade"/>
+            />
 
         <LinearLayout
            android:layout_width="match_parent"
